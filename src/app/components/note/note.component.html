@@ -1,0 +1,96 @@
+<ngx-spinner size="medium" color="fff" bdColor="rgba(51,51,51,0.8)" type="ball-scale-multiple" [fullScreen]="true">
+  <p style="font-size: 20px; color: white;">Loading...</p>
+</ngx-spinner>
+
+
+
+<div class="container">
+  <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#addNoteModal">Add
+    Note</button>
+
+
+  <div class="row flex-wrap">
+    <div class="col-md-4 " *ngFor="let note of notes">
+      <div class="card card-body border border-3 rounded-3 border-secondary">
+        <h5>{{note.title}}</h5>
+        <p class="text-muted">{{note.desc}}</p>
+        <div class="d-flex align-items-center ml-auto">
+          <div class="mx-2">
+            <i class="bi bi-pen text-success" data-toggle="modal" data-target="#editNoteModal"
+              (click)="getNote(note)"></i>
+          </div>
+          <div class="mx-2">
+            <i class="bi bi-trash text-danger" (click)="deleteNote(note)"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Add Note Modal-->
+  <div class="modal fade" id="addNoteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New Note</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="noteForm">
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Note Title:</label>
+              <input formControlName="title" type="text" class="form-control" id="recipient-name">
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Note Description:</label>
+              <textarea formControlName="description" class="form-control" id="message-text"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addNote()"
+            [disabled]="noteForm.invalid">Add
+            Note</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Edit Note Modal-->
+  <div class="modal fade" id="editNoteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Note</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="editForm">
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Note Title:</label>
+              <input [value]="note?.title" formControlName="editTitle" type="text" class="form-control"
+                id="recipient-name">
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Note Description:</label>
+              <textarea [value]="note?.desc" formControlName="editDescription" class="form-control"
+                id="message-text"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="updateNote(note)">Update
+            Note</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
